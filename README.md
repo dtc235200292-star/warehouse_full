@@ -61,6 +61,7 @@ python manage.py runserver
 
 Truy cập trình duyệt:
 http://127.0.0.1:8000/
+Link GitHub : https://github.com/dtc235200292-star/warehouse_full
 
 ## 6. Tài khoản mẫu (nếu có)
 - Username: admin  
