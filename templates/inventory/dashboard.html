@@ -1,0 +1,158 @@
+﻿{% extends "base.html" %}
+{% block content %}
+
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-2 mb-3">
+    <div>
+        <h3 class="mb-1"><i class="bi bi-speedometer2"></i> Dashboard quản trị</h3>
+        <div class="text-muted">CRUD Products & Orders (Staff/Admin)</div>
+    </div>
+
+    <div class="d-flex gap-2 flex-wrap">
+        <a class="btn btn-dark" href="{% url 'product_add' %}">
+            <i class="bi bi-plus-circle"></i> Thêm sản phẩm
+        </a>
+        <a class="btn btn-dark" href="{% url 'order_add' %}">
+            <i class="bi bi-plus-circle"></i> Tạo đơn
+        </a>
+        <a class="btn btn-outline-dark" href="/admin/">
+            <i class="bi bi-shield-lock"></i> Django Admin
+        </a>
+    </div>
+</div>
+
+<!-- Search -->
+<form class="row g-2 mb-4" method="get">
+    <div class="col-lg-7">
+        <div class="input-group">
+            <span class="input-group-text"><i class="bi bi-search"></i></span>
+            <input name="q" value="{{ q|default:'' }}" class="form-control"
+                   placeholder="Tìm sản phẩm (name/sku) hoặc đơn (khách/sản phẩm)...">
+        </div>
+    </div>
+    <div class="col-lg-auto">
+        <button class="btn btn-outline-dark" type="submit">Tìm</button>
+        <a class="btn btn-outline-secondary" href="{% url 'dashboard' %}">Reset</a>
+    </div>
+</form>
+
+<div class="row g-4">
+    <!-- PRODUCTS -->
+    <div class="col-lg-6">
+        <div class="card card-soft rounded-4">
+            <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="mb-0"><i class="bi bi-box-seam"></i> Products</h5>
+                    <span class="badge badge-soft rounded-pill px-3 py-2">{{ products|length }} items</span>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead>
+                            <tr>
+                                <th>Tên</th>
+                                <th>SKU</th>
+                                <th class="text-end">SL</th>
+                                <th class="text-end">Giá</th>
+                                <th class="text-end" style="width:150px;">Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for p in products %}
+                            <tr>
+                                <td class="fw-semibold">{{ p.name }}</td>
+                                <td><span class="badge text-bg-light border">{{ p.sku }}</span></td>
+                                <td class="text-end">{{ p.quantity }}</td>
+                                <td class="text-end">{{ p.price }}</td>
+                                <td class="text-end">
+                                    <div class="d-inline-flex gap-2">
+                                        <a class="btn btn-outline-dark btn-sm" href="{% url 'product_edit' p.id %}" title="Sửa">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+
+                                        <form method="post" action="{% url 'product_delete' p.id %}" class="m-0">
+                                            {% csrf_token %}
+                                            <button class="btn btn-outline-danger btn-sm" type="submit"
+                                                    onclick="return confirm('Xóa sản phẩm này?')" title="Xóa">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr><td colspan="5" class="text-muted">Chưa có sản phẩm</td></tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- ORDERS -->
+    <div class="col-lg-6">
+        <div class="card card-soft rounded-4">
+            <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="mb-0"><i class="bi bi-receipt"></i> Orders</h5>
+                    <span class="badge badge-soft rounded-pill px-3 py-2">{{ orders|length }} orders</span>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Khách</th>
+                                <th>Sản phẩm</th>
+                                <th class="text-end">SL</th>
+                                <th>Trạng thái</th>
+                                <th class="text-end" style="width:150px;">Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for o in orders %}
+                            <tr>
+                                <td class="text-muted">#{{ o.id }}</td>
+                                <td class="fw-semibold">{{ o.customer_name }}</td>
+                                <td>{{ o.product.name }}</td>
+                                <td class="text-end">{{ o.quantity }}</td>
+                                <td>
+                                    {% if o.status == "approved" %}
+                                    <span class="badge text-bg-success">Approved</span>
+                                    {% elif o.status == "rejected" %}
+                                    <span class="badge text-bg-danger">Rejected</span>
+                                    {% else %}
+                                    <span class="badge text-bg-warning">Pending</span>
+                                    {% endif %}
+                                </td>
+                                <td class="text-end">
+                                    <div class="d-inline-flex gap-2">
+                                        <a class="btn btn-outline-dark btn-sm" href="{% url 'order_edit' o.id %}" title="Sửa">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+
+                                        <form method="post" action="{% url 'order_delete' o.id %}" class="m-0">
+                                            {% csrf_token %}
+                                            <button class="btn btn-outline-danger btn-sm" type="submit"
+                                                    onclick="return confirm('Xóa đơn này?')" title="Xóa">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr><td colspan="6" class="text-muted">Chưa có đơn hàng</td></tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
