@@ -1,109 +1,122 @@
+📦 HỆ THỐNG QUẢN LÝ KHO & ĐƠN HÀNG (Warehouse Management System)
+🎓 Thông tin đồ án
+Học phần: Phát triển ứng dụng Web
+Loại bài: Thi kết thúc học phần
+Nhóm thực hiện:
+NGÔ THANH HOÀN
+NGÔ MẠNH QUÂN
+NGUYỄN CÔNG HOÀNG
+1. 🚀 Giới thiệu hệ thống
 
-## 1. Mô tả dự án
-Ứng dụng web cho phép người dùng:
-- Quản lý sản phẩm trong kho
-- Quản lý đơn hàng
-- Theo dõi trạng thái đơn hàng
-- Đăng nhập, đăng ký tài khoản người dùng
+Hệ thống được xây dựng nhằm hỗ trợ doanh nghiệp quản lý:
 
-## 2. Chức năng chính
-- Đăng nhập / Đăng ký người dùng
-- CRUD sản phẩm (Thêm, sửa, xóa, xem)
-- CRUD đơn hàng
-- Thống kê đơn hàng theo trạng thái
-- Dashboard quản lý
-- Menu điều hướng, header, footer thống nhất
-- Template inheritance (base.html)
+Sản phẩm trong kho
+Đơn hàng
+Trạng thái xử lý đơn
+Người dùng hệ thống
 
-## 3. Công nghệ sử dụng
-- Python 3
-- Django
-- SQLite (CSDL mặc định)
-- HTML, CSS (Template Django)
+Ứng dụng giúp tối ưu quy trình quản lý thủ công, giảm sai sót và tăng hiệu quả vận hành.
 
-## 4. Cấu trúc thư mục chính
-warehouse_full/
-│
-├── accounts/
-├── inventory/
-├── templates/
-│ ├── accounts/
-│ └── inventory/
-├── config/
-├── db.sqlite3
-├── manage.py
-├── README.md
-└── requirements.txt
+2. 🎯 Chức năng hệ thống
+🔐 Quản lý người dùng
+Đăng ký / Đăng nhập
+Phân quyền cơ bản
+📦 Quản lý sản phẩm
+Thêm / sửa / xóa sản phẩm
+Hiển thị danh sách sản phẩm
+🧾 Quản lý đơn hàng
+Tạo đơn hàng
+Cập nhật trạng thái (Pending, Completed, Cancelled...)
+Xem danh sách đơn
+📊 Dashboard & Thống kê
+Tổng số đơn hàng
+Thống kê theo trạng thái
+Biểu đồ trực quan
+3. ⚙️ Công nghệ sử dụng
+Backend: Django (Python 3)
+Database: SQLite
+Frontend: HTML, CSS, Django Template
+Mô hình: MVC (Django MTV)
+4. 🗄️ Thiết kế cơ sở dữ liệu
 
-## 5. Cài đặt môi trường
+Hệ thống gồm ít nhất 5 bảng chính:
 
-### Bước 1: Clone hoặc tải project
+User (Django auth)
+Product
+Order
+OrderItem
+Category (hoặc tương đương)
+🔗 Quan hệ:
+Product → Category (Many-to-One)
+Order → User (Many-to-One)
+OrderItem → Order (Many-to-One)
+OrderItem → Product (Many-to-One)
+
+✔ Có sử dụng:
+
+Primary Key
+Foreign Key
+Ràng buộc logic dữ liệu
+5. 🖥️ Giao diện & UI/UX
+Giao diện đơn giản, dễ sử dụng
+Bố cục rõ ràng: Header – Menu – Content – Footer
+Sử dụng base.html để tái sử dụng layout
+Responsive cơ bản (hiển thị tốt trên nhiều màn hình)
+6. 📈 Thống kê & báo cáo
+
+Hệ thống hỗ trợ:
+
+Thống kê số lượng đơn theo trạng thái
+Hiển thị biểu đồ (Chart)
+Dữ liệu được cập nhật theo thời gian thực
+7. 🧪 Kiểm thử hệ thống
+
+Đã thực hiện kiểm thử:
+
+✅ CRUD sản phẩm
+✅ CRUD đơn hàng
+✅ Đăng nhập / đăng ký
+✅ Kiểm tra luồng nghiệp vụ
+
+Kết quả:
+
+Hệ thống hoạt động ổn định
+Không có lỗi nghiêm trọng
+8. ▶️ Hướng dẫn cài đặt & chạy
+Bước 1: Clone project
 git clone <link_repo>
-Hoặc tải file zip và giải nén.
-
-### Bước 2: Cài thư viện
+cd warehouse_full
+Bước 2: Cài thư viện
 pip install -r requirements.txt
-
-Hoặc:
-pip install django
-
-
-### Bước 3: Chạy migrate
+Bước 3: Migrate database
 python manage.py migrate
-
-
-### Bước 4: Tạo tài khoản admin (tuỳ chọn)
-python manage.py createsuperuser
-
-
-### Bước 5: Chạy server
+Bước 4: Chạy server
 python manage.py runserver
 
-Truy cập trình duyệt:
-http://127.0.0.1:8000/
-Link GitHub : https://github.com/dtc235200292-star/warehouse_full
+👉 Truy cập: http://127.0.0.1:8000/
 
-## 6. Tài khoản mẫu (nếu có)
-- Username: admin  
-- Password: 123456  
-(Hoặc tự tạo bằng createsuperuser)
-
-
-## 7. Seed data
-Hệ thống có dữ liệu mẫu để hiển thị danh sách sản phẩm và đơn hàng.
-
-
-## 8. Giao diện
-- Trang Home
-- Trang Login
-- Trang Register
-- Trang Dashboard
-- Trang CRUD sản phẩm
-- Trang CRUD đơn hàng
-
-
-## 9. Template inheritance
-Sử dụng `base.html` làm layout chung:
-- Header
-- Menu
-- Footer
-Các trang kế thừa từ `base.html` bằng `{% extends 'base.html' %}`.
-
-
-## 10. Hướng dẫn test nhanh
-1. Đăng ký tài khoản
-2. Đăng nhập
-3. Thêm sản phẩm
-4. Tạo đơn hàng
-5. Kiểm tra danh sách và thống kê
-
-## 11. Tác giả
--NGÔ THANH HOÀN 
--NGÔ MẠNH QUÂN
--NGUYỄN CÔNG HOÀNG 
-
-## 12. Ghi chú
-- Sử dụng SQLite để dễ chạy trên mọi máy
-- Có thể chuyển sang MySQL/PostgreSQL nếu cần
-update step 1
-update step 2
+9. 🔑 Tài khoản test
+Username: admin
+Password: 123456
+10. 🎥 Demo hệ thống
+Video demo: (đính kèm link Google Drive / YouTube)
+Thời lượng: 5–7 phút
+Nội dung:
+Đăng nhập
+CRUD sản phẩm
+Tạo đơn hàng
+Xem dashboard
+11. 📑 Tài liệu kèm theo
+📘 Báo cáo PDF / DOCX
+📊 Slide thuyết trình (10–15 trang)
+📐 Sơ đồ:
+ERD (Database)
+Use Case
+Kiến trúc hệ thống
+12. 🌟 Tính năng mở rộng
+Lọc sản phẩm nâng cao
+Thống kê trực quan bằng biểu đồ
+Có thể mở rộng:
+Export Excel
+API REST
+AI gợi ý sản phẩm
